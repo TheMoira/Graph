@@ -23,6 +23,7 @@ private:
 	void draw_to_color_pixels(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b);
 
 
+
 public:
 	Menu();
 
@@ -31,4 +32,12 @@ public:
 	void outtextxy(sf::RenderTarget& target, float x, float y, const wchar_t *str) const;
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+	bool MouseOnColors() const;
+
+	sf::Color colorPicked() const;
+
 };
+
+char WhichKey(sf::Event::KeyEvent::code key);
+

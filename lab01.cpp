@@ -80,6 +80,8 @@ int main()
    //Draw BEGIN
   
 
+
+   
    //wyczysc okno
    window.clear(sf::Color::Black);
    window.draw(draw->shape);
@@ -90,8 +92,9 @@ int main()
 
    //dodaj teksture do sprite
 
-
+   draw->load(Rtxrt, txtr);
    window.draw(menu);
+   window.draw(draw->returnDrawing(Rtxtr));
 
 
    //wyrysuj sprite

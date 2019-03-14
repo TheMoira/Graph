@@ -1,4 +1,4 @@
-#include "Draws.h"
+#include "D:\docs\agh\semestr4\grafika\Draws.h"
 #include <iostream>
 
 Draws::count = 0;
@@ -45,6 +45,15 @@ void Draws::TimeToDraw(char mode)
 	}
 }
 //void Draws::EndDrawing();
+
+
+
+sf::Sprite Draws::returnDrawing(sf::RenderTexture rt)
+{
+	sf::Sprite sprite(rt.getTexture());
+	sprite.setPosition(2.0, 62.0);
+	return sprite;
+}
 
 void Draws::SetAColor(sf::Color color)
 {
@@ -98,6 +107,23 @@ void Draws::DrawCircle()
 	shape = circle;
 }
 
+void Draws::load(sf::RenderTexture rt, sf::Texture t)
+{
+	rt.clear(sf::Color::Black);
+	rt.draw(sf::Sprite(t));
+
+
+	for (int i = 0; i < count; i++)
+	{
+		rt.draw(*(*ShapeArray[i]));
+	}
+		
+
+	rt.draw(*shape);
+	rt.display();
+
+}
+
 void Draws::StartDrawing(sf::Vector2f* start)
 {
 	count++;
@@ -105,6 +131,13 @@ void Draws::StartDrawing(sf::Vector2f* start)
 }
 void Draws::FinishDrawing(sf::Vector2f* end)
 {
+	if (count==1)
+	{
+		ShapeArray = new sf::Drawable*[1];
+		ShapeArray[0] = shape;
+		goto finish;
+	}
+
 	sf::Drawable **temp = new sf::Drawable*[count - 1];
 	for (int i = 0;i < count-1;i++)
 	{
@@ -124,6 +157,7 @@ void Draws::FinishDrawing(sf::Vector2f* end)
 		delete[] temp[j];
 	}
 
+	finish:
 	_end = end;
 }
 

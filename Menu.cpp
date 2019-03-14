@@ -1,4 +1,7 @@
-﻿#include "Menu.h"
+#include "Menu.h"
+
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 void Menu::draw_to_color_pixels(unsigned int x, unsigned int y, unsigned char r, unsigned char g, unsigned char b)
 {
@@ -81,4 +84,69 @@ void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	target.draw(*rectangle);
 	target.draw(*colors_sprite);
+}
+
+
+
+char WhichKey(sf::Event::KeyEvent::code key)
+{
+	char mode;
+
+	switch (key)
+	{
+	case sf::Keyboard::L:
+		mode = 'l';
+		break;
+	case sf::Keyboard::F:
+		mode = 'f';
+		break;
+	case sf::Keyboard::B:
+		mode = 'b';
+		break;
+	case sf::Keyboard::R:
+		mode = 'r';
+		break;
+	case sf::Keyboard::A:
+		mode = 'a';
+		break;
+	case sf::Keyboard::O:
+		mode = 'o';
+		break;
+	case sf::Keyboard::W:
+		mode = 'w';
+		break;
+	case sf::Keyboard::Escape:
+		mode = 'x';
+		break;
+	default:
+		mode = '0';
+		break;
+	}
+
+	return mode;
+}
+
+bool Menu::MouseOnColors() const
+{
+	sf::Vector2i position = sf::Mouse::getPosition();
+	if (position.x > 765 || mousePosition.y > 60)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+
+sf::Color Menu::colorPicked() const
+{
+	sf::Vector2i position = sf::Mouse::getPosition();
+
+	sf::Color color = sf::Color(colors_pixels[4 * (position.y * colors_size_x + position.x) + 0],
+		colors_pixels[4 * (position.y * colors_size_x + position.x) + 1],
+		colors_pixels[4 * (position.y * colors_size_x + position.x) + 2]);
+
+	return color;
 }
