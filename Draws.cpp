@@ -1,7 +1,7 @@
-#include "D:\docs\agh\semestr4\grafika\Draws.h"
+#include "Draws.h"
 #include <iostream>
 
-Draws::count = 0;
+int Draws::count = 0;
 
 
 
@@ -48,9 +48,9 @@ void Draws::TimeToDraw(char mode)
 
 
 
-sf::Sprite Draws::returnDrawing(sf::RenderTexture rt)
+sf::Sprite Draws::returnDrawing(sf::RenderTexture *rt) const
 {
-	sf::Sprite sprite(rt.getTexture());
+	sf::Sprite sprite(rt->getTexture());
 	sprite.setPosition(2.0, 62.0);
 	return sprite;
 }
@@ -81,8 +81,8 @@ void Draws::DrawLine()
 
 void Draws::DrawRect()
 {
-	sf::RectangleShape *rect = new sf::RectangleShape(sf::Vector2f(1,1));
-	
+	sf::RectangleShape *rect = new sf::RectangleShape(sf::Vector2f(1, 1));
+
 	rect->setFillColor(_bgcolor);
 	rect->setOutlineColor(_color);
 	rect->setOutlineThickness(2.0);
@@ -107,20 +107,20 @@ void Draws::DrawCircle()
 	shape = circle;
 }
 
-void Draws::load(sf::RenderTexture rt, sf::Texture t)
+void Draws::load(sf::RenderTexture *rt, sf::Texture t)
 {
-	rt.clear(sf::Color::Black);
-	rt.draw(sf::Sprite(t));
+	rt->clear(sf::Color::Black);
+	rt->draw(sf::Sprite(t));
 
 
 	for (int i = 0; i < count; i++)
 	{
-		rt.draw(*(*ShapeArray[i]));
+		rt->draw(*ShapeArray[i]);
 	}
-		
 
-	rt.draw(*shape);
-	rt.display();
+
+	rt->draw(*shape);
+	rt->display();
 
 }
 
@@ -131,21 +131,22 @@ void Draws::StartDrawing(sf::Vector2f* start)
 }
 void Draws::FinishDrawing(sf::Vector2f* end)
 {
-	if (count==1)
+	if (count == 1)
 	{
 		ShapeArray = new sf::Drawable*[1];
 		ShapeArray[0] = shape;
-		goto finish;
+		_end = *end;
+		return;
 	}
 
 	sf::Drawable **temp = new sf::Drawable*[count - 1];
-	for (int i = 0;i < count-1;i++)
+	for (int i = 0;i < count - 1;i++)
 	{
 		*temp[i] = *ShapeArray[i];
 	}
 
 	ShapeArray = new sf::Drawable*[count];
-	for (int i = 0;i < count-1;i++)
+	for (int i = 0;i < count - 1;i++)
 	{
 		*ShapeArray[i] = *temp[i];
 	}
@@ -157,13 +158,12 @@ void Draws::FinishDrawing(sf::Vector2f* end)
 		delete[] temp[j];
 	}
 
-	finish:
-	_end = end;
+	_end = *end;
 }
 
 void Draws::Update()
 {
-	switch (mode)
+	switch (_mode)
 	{
 	case 'r':
 		UpRect();
@@ -178,13 +178,13 @@ void Draws::Update()
 }
 void Draws::UpLine()
 {
-	sf::VertexArray* line = static_cast<sf::VertexArray*>shape;
+	sf::VertexArray* line = static_cast<sf::VertexArray*>(shape);
 	(*line)[1].position = _end;
 }
 
 void Draws::UpRect()
 {
-	sf::RectangleShape* rect = static_cast<sf::RectangleShape*>shape;
+	sf::RectangleShape* rect = static_cast<sf::RectangleShape*>(shape);
 	float X = 1.0;
 	float Y = 1.0;
 
@@ -204,7 +204,7 @@ void Draws::UpRect()
 	newsize.x = abs(rect->getPosition().x - _end.x);
 	newsize.y = abs(rect->getPosition().y - _end.y);
 
-	rect->setScale(X,Y);
+	rect->setScale(X, Y);
 	rect->setSize(newsize);
 }
 
@@ -214,7 +214,7 @@ void Draws::UpCircle()
 
 	float angle = atan2f(_end.x - _begin.x, _end.y - _begin.y);
 	float r = sqrt(pow(_end.x - _begin.x, 2) + pow(_end.y - _begin.y, 2)) / 2;
-	
+
 	float X = 1.0;
 	float Y = 1.0;
 	if (circle->getPosition().x > _end.x)
@@ -229,7 +229,7 @@ void Draws::UpCircle()
 
 	circle->setRotation(angle);
 	circle->setRadius(r);
-	circle->setScale(X,Y);
+	circle->setScale(X, Y);
 }
 
 void Draws::SaveToFile(std::string name, sf::RenderTexture rendert) const
@@ -238,6 +238,6 @@ void Draws::SaveToFile(std::string name, sf::RenderTexture rendert) const
 }
 void Draws::OpenFromFile(std::string name, sf::RenderTexture* rendert)
 {
-	rendert->OpenFromFile(name);
-	rendert->setSmooth(true);
+	//rendert->
+	//rendert->setSmooth(true);
 }

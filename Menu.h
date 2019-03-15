@@ -1,7 +1,8 @@
 #pragma once
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "font.h"
+//#include "font.h"
+//#include "font.h"
 
 
 
@@ -39,5 +40,5 @@ public:
 
 };
 
-char WhichKey(sf::Event::KeyEvent::code key);
+char WhichKey(sf::Keyboard::Key k);
 

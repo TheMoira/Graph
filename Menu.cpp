@@ -13,9 +13,9 @@ void Menu::draw_to_color_pixels(unsigned int x, unsigned int y, unsigned char r,
 
 Menu::Menu()
 {
-	font.loadFromMemory(font_data, font_data_size);
+	//font.loadFromMemory(font_data, font_data_size);
 	text = new sf::Text;
-	text->setFont(font);
+	//text->setFont(font);
 	text->setCharacterSize(12);
 	text->setFillColor(sf::Color::White);
 
@@ -51,7 +51,7 @@ Menu::Menu()
 
 Menu::~Menu()
 {
-	 delete text;
+	delete text;
 	delete rectangle;
 
 	delete colors_texture;
@@ -68,17 +68,17 @@ void Menu::outtextxy(sf::RenderTarget& target, float x, float y, const wchar_t *
 
 void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	outtextxy(target, 5, 600, L"f - wyb�r koloru rysowania");
-	outtextxy(target, 5, 615, L"b - wyb�r koloru wype�niania");
+	outtextxy(target, 5, 600, L"f - wybor koloru rysowania");
+	outtextxy(target, 5, 615, L"b - wybor koloru wypeoniania");
 	outtextxy(target, 5, 630, L"l - rysowanie linii");
 
-	outtextxy(target, 200, 600, L"r - rysowanie prostok�ta");
-	outtextxy(target, 200, 615, L"a - rysowanie wype�nionego prostok�ta");
-	outtextxy(target, 200, 630, L"c - rysowanie okr�gu");
+	outtextxy(target, 200, 600, L"r - rysowanie prostokata");
+	outtextxy(target, 200, 615, L"a - rysowanie wypelnionego prostokata");
+	outtextxy(target, 200, 630, L"c - rysowanie okregu");
 
 	outtextxy(target, 470, 600, L"w - zapis do pliku");
 	outtextxy(target, 470, 615, L"o - odczyt z pliku");
-	outtextxy(target, 470, 630, L"esc - wyj�cie");
+	outtextxy(target, 470, 630, L"esc - wyjscie");
 
 	outtextxy(target, 650, 615, L"Aktualne:");
 
@@ -88,11 +88,11 @@ void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 
 
-char WhichKey(sf::Event::KeyEvent::code key)
+char WhichKey(sf::Keyboard::Key k)
 {
 	char mode;
 
-	switch (key)
+	switch (k)
 	{
 	case sf::Keyboard::L:
 		mode = 'l';
@@ -129,7 +129,7 @@ char WhichKey(sf::Event::KeyEvent::code key)
 bool Menu::MouseOnColors() const
 {
 	sf::Vector2i position = sf::Mouse::getPosition();
-	if (position.x > 765 || mousePosition.y > 60)
+	if (position.x > 765 || position.y > 60)
 	{
 		return false;
 	}
